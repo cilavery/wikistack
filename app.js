@@ -9,6 +9,7 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan');
+const db = require('./models/index');
 
 /* MIDDLEWARE */
 
@@ -30,9 +31,35 @@ app.engine('html', nunjucks.render); // when res.render works with html files, h
 // router
 app.use(router);
 
+
+//Entire database db syncing & SERVER
+db.sync({force : true})
+.then(function () {
+    console.log('All tables created!');
+    app.listen(3000, function () {
+        console.log('Server is listening on port 3000!');
+    });
+})
+.catch(console.error.bind(console));
+
+
+// db.User.sync()
+//   .then(function() {
+//     console.log('User table created!');
+//     return db.Page.sync();
+// })
+// .then(function () {
+//     console.log('Page table created!');
+//     app.listen(3000, function () {
+//         console.log('Server is listening on port 3000!');
+//     });
+// })
+// .catch(console.error.bind(console));
+
+
 /* SERVER */
 
-// if (!module.parent) {
-  app.listen(3000,() => console.log('listening!!'));
-// }
+// // if (!module.parent) {
+//   app.listen(3000,() => console.log('listening!!'));
+// // }
 
