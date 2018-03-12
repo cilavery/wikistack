@@ -2,7 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./models');
-const Page = db.model('page') //how to access db tables, if exporting the entire db
+const User = db.model('user'); // to access the `User` obj in `db`
+const Page = db.model('page'); // to access the `Page` obj in `db`
+
 
 router.get('/', (req, res, next) => {
   res.render('./views/index.html');

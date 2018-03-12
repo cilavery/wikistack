@@ -9,7 +9,8 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan');
-const db = require('./models/index');
+// const models = require('./models'); // if exported only the indiv objs from db
+const db = require('./models'); // if exported entire db
 
 /* MIDDLEWARE */
 
@@ -32,7 +33,9 @@ app.engine('html', nunjucks.render); // when res.render works with html files, h
 app.use(router);
 
 
-//Entire database db syncing & SERVER
+/* SYNCING  & SERVER */
+
+// Entire db
 db.sync({force : true})
 .then(function () {
     console.log('All tables created!');
@@ -42,8 +45,8 @@ db.sync({force : true})
 })
 .catch(console.error.bind(console));
 
-
-// db.User.sync()
+// If exported only indiv objs from db
+// models.User.sync()
 //   .then(function() {
 //     console.log('User table created!');
 //     return db.Page.sync();
