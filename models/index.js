@@ -15,7 +15,12 @@ const Page = db.define('page', {
     validate: {
       isUrl: true,
     },
-    defaultValue: 'http://www.foo.com'
+    defaultValue: 'http://www.foo.com',
+    getterMethods: {
+      route() {
+        return `/wiki/${this.urlTitle}`;
+      }
+    }
   },
   content: {
     type: Sequelize.TEXT,
