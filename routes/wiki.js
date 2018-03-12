@@ -10,6 +10,7 @@ router.get('/', (req, res, next) => {
 // POST /wiki/      (/)       submit a new page to the db
 router.post('/', (req, res, next) => {
   res.render('addpage');
+  console.log('req.body',req.body);
   // res.send('response to POST request to /wiki/');
 });
 
