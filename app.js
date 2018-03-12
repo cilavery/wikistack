@@ -1,24 +1,38 @@
 'use strict';
+
+/* DEPENDENCIES */
 const express = require('express');
 const parser = require('body-parser');
 const nunjucks = require('nunjucks');
-const router = require('./routes')
+const router = require('./routes');
 const app = express();
-const env = nunjucks.configure('views', {noCache: true});
 const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan');
 
-// have res.render work with html files
-app.set('view engine', 'html');
-// when res.render works with html files, have it use nunjucks to do so
-app.engine('html', nunjucks.render);
-app.use(router);
+/* MIDDLEWARE */
+
+// logging
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, '/public')));
 
+// express.static
+app.use(express.static(path.join(__dirname, '/public/views')));
 
-if (!module.parent) {
+// body-parser
+app.use(parser.urlencoded({ extended: true})); // for HTMPL form submits
+app.use(parser.json()); // would be for AJAX reqs
+
+// nunjucks
+const env = nunjucks.configure('/public/views', {noCache: true});
+app.set('view engine', 'html'); // have res.render work with html files
+app.engine('html', nunjucks.render); // when res.render works with html files, have it use nunjucks to do so
+
+// router
+app.use(router);
+
+/* SERVER */
+
+// if (!module.parent) {
   app.listen(3000,() => console.log('listening!!'));
-}
+// }
 
